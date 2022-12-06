@@ -1,6 +1,5 @@
 [submodule "aoc2020"]
 	path = aoc2020
-	url = https://github.com/metya/advents_of_code
 [submodule "aoc2021"]
 	path = aoc2021
 	url = https://github.com/metya/aoc2021
