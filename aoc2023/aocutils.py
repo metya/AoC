@@ -1,26 +1,34 @@
 import os
 import requests
+import time
 import bs4
 import markdownify as md
 
-def create_jl(task_dir: str, day: int):
-    jl_path = os.path.join(task_dir, "puzzle.jl")
-    if os.path.exists(jl_path):
-        os.utime(jl_path, None)
+YEAR = "2023"
+session_id = "53616c7465645f5f5203cbb171a7f6f4657fe17cc46d48121430546fb8dd3d7f7ea47108f02dc2d3631893eb094a4149bcbbe5a57215015a6bc953bfc808bd31"
+
+
+def create_files(task_dir: str, day: int):
+    ol_path = os.path.join(task_dir, f"day{day}.ol")
+    python_path = os.path.join(task_dir, f"day{day}.py")
+    if os.path.exists(ol_path):
+        os.utime(ol_path, None)
     else:
-        open(jl_path, "a").close()
+        open(ol_path, "a").close()
+    if os.path.exists(python_path):
+        os.utime(python_path, None)
+    else:
+        open(python_path, "a").close()
 
 
 def generate_readme(task_dir: str, day: int):
     os.makedirs(task_dir, exist_ok=True)
     readme_path = os.path.join(task_dir, "README.md")
-    cookies_dict = {
-        "session": "53616c7465645f5fefb3f3f69b82ffe6cf03aeb1a491c72b218281b2f7a8fc768b12c1f70fe183ba512239efd882d68c28426443fd2b7e71c03833bfdbdd3562"
-    }
+    cookies_dict = {"session": session_id}
 
     soup = bs4.BeautifulSoup(
         requests.get(
-            f"https://adventofcode.com/2022/day/{day}", cookies=cookies_dict
+            f"https://adventofcode.com/{YEAR}/day/{day}", cookies=cookies_dict
         ).content,
         features="html.parser",
     )
@@ -36,9 +44,7 @@ def get_input(task_dir: str, day: int) -> tuple[list[str], list[str]] | None:
     example_path = os.path.join(task_dir, "example.txt")
     readme_path = os.path.join(task_dir, "README.md")
 
-    cookies_dict = {
-        "session": "53616c7465645f5f479c5542473264aed531b6c7ec141c211d7b5b73dc7e982507a8452a3f54c7c91e666d48e23dedb590e8637e3003669d5c71bc35d7a3b6cc"
-    }
+    cookies_dict = {"session": session_id}
 
     os.makedirs(task_dir, exist_ok=True)
 
@@ -47,7 +53,7 @@ def get_input(task_dir: str, day: int) -> tuple[list[str], list[str]] | None:
             input = f.read().splitlines()
     else:
         input = requests.get(
-            f"https://adventofcode.com/2022/day/{day}/input", cookies=cookies_dict
+            f"https://adventofcode.com/{YEAR}/day/{day}/input", cookies=cookies_dict
         ).text
         with open(input_path, "w") as f:
             f.write(input.strip())
@@ -69,10 +75,20 @@ def get_input(task_dir: str, day: int) -> tuple[list[str], list[str]] | None:
     return input, example
 
 
+def bench(part):
+    def wrapper(*args, **kwargs):
+        start = time.perf_counter()
+        value = part(*args, **kwargs)
+        print(f"\tevaluation time: {time.perf_counter() - start} s")
+        return value
+
+    return wrapper
+
 
 if __name__ == "__main__":
-    
-    day = 8
-    generate_readme(f"day{day}", day)
-    get_input(f"day{day}", day)
-    create_jl(f"day{day}", day)
+    day = 3
+    root = os.path.dirname(__file__)
+    task_dir = os.path.join(root, f"day{day}")
+    generate_readme(task_dir, day)
+    get_input(task_dir, day)
+    create_files(task_dir, day)
