@@ -86,7 +86,7 @@ def bench(part):
 
 
 if __name__ == "__main__":
-    day = 6
+    day = 7
     root = os.path.dirname(__file__)
     task_dir = os.path.join(root, f"day{day}")
     generate_readme(task_dir, day)
