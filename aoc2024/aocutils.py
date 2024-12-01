@@ -4,17 +4,17 @@ import time
 import bs4
 import markdownify as md
 
-YEAR = "2023"
-session_id = "53616c7465645f5f5203cbb171a7f6f4657fe17cc46d48121430546fb8dd3d7f7ea47108f02dc2d3631893eb094a4149bcbbe5a57215015a6bc953bfc808bd31"
+YEAR = "2024"
+session_id = "53616c7465645f5fac063ee400b29580afda85dde7a28a255d300226c59d9dc7f19e200f03ce27cd6a26f59a64ee6b6d39b155c46f7a6b90b63dcb265c37cbca"
 
 
 def create_files(task_dir: str, day: int):
-    ol_path = os.path.join(task_dir, f"day{day}.ol")
+    go_path = os.path.join(task_dir, f"day{day}.go")
     python_path = os.path.join(task_dir, f"day{day}.py")
-    if os.path.exists(ol_path):
-        os.utime(ol_path, None)
+    if os.path.exists(go_path):
+        os.utime(go_path, None)
     else:
-        open(ol_path, "a").close()
+        open(go_path, "a").close()
     if os.path.exists(python_path):
         os.utime(python_path, None)
     else:
@@ -86,7 +86,7 @@ def bench(part):
 
 
 if __name__ == "__main__":
-    day = 17
+    day = 1
     root = os.path.dirname(__file__)
     task_dir = os.path.join(root, f"day{day}")
     generate_readme(task_dir, day)
