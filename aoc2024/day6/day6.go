@@ -35,6 +35,7 @@ func main() {
 
 	startX, startY, direction := findStart(grid)
 
+	// part 1
 	start := time.Now()
 	_, visited := simulate(grid, startX, startY, direction)
 	lenv := make(map[[2]int]bool)
@@ -42,9 +43,12 @@ func main() {
 		lenv[[2]int{x[0], x[1]}] = true
 	}
 	part1_time := time.Since(start)
+
+	// part 2
 	start = time.Now()
 	loopPositions := findLoopObstacles(grid, [3]int{startX, startY, directionIndex(direction)}, visited)
 	part2_time := time.Since(start)
+
 	fmt.Println("Visited Distinct Positions:", len(lenv), "in time:", part1_time)
 	fmt.Println("Loop Positions:", len(loopPositions), "in time:", part2_time)
 }
@@ -95,6 +99,7 @@ func simulate(grid []string, startX, startY int, direction string) (bool, map[[3
 
 		if grid[nextY][nextX] == '#' {
 			direction = turnRight[direction]
+			continue
 		} else {
 			x, y = nextX, nextY
 		}
