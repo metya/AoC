@@ -4,8 +4,8 @@ import time
 import bs4
 import markdownify as md
 
-YEAR = "2024"
-session_id = "53616c7465645f5fac063ee400b29580afda85dde7a28a255d300226c59d9dc7f19e200f03ce27cd6a26f59a64ee6b6d39b155c46f7a6b90b63dcb265c37cbca"
+YEAR = "2025"
+session_id = "53616c7465645f5f74bf2aff62945c49fba5f96848423a482d4c5b51ac366cb778fe7aaa623cedb5d38ff64f30317c6146590748dab77ccd9e902633765a29ce"
 
 
 def create_files(task_dir: str, day: int):
@@ -27,9 +27,7 @@ def generate_readme(task_dir: str, day: int):
     cookies_dict = {"session": session_id}
 
     soup = bs4.BeautifulSoup(
-        requests.get(
-            f"https://adventofcode.com/{YEAR}/day/{day}", cookies=cookies_dict
-        ).content,
+        requests.get(f"https://adventofcode.com/{YEAR}/day/{day}", cookies=cookies_dict).content,
         features="html.parser",
     )
     with open(readme_path, "w") as readme:
@@ -52,9 +50,7 @@ def get_input(task_dir: str, day: int) -> tuple[list[str], list[str]] | None:
         with open(input_path, "r") as f:
             input = f.read().splitlines()
     else:
-        input = requests.get(
-            f"https://adventofcode.com/{YEAR}/day/{day}/input", cookies=cookies_dict
-        ).text
+        input = requests.get(f"https://adventofcode.com/{YEAR}/day/{day}/input", cookies=cookies_dict).text
         with open(input_path, "w") as f:
             f.write(input.strip())
         input = input.splitlines()
@@ -86,7 +82,7 @@ def bench(part):
 
 
 if __name__ == "__main__":
-    day = 11
+    day = 1
     root = os.path.dirname(__file__)
     task_dir = os.path.join(root, f"day{day}")
     generate_readme(task_dir, day)
