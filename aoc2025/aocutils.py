@@ -8,6 +8,16 @@ YEAR = "2025"
 session_id = "53616c7465645f5f74bf2aff62945c49fba5f96848423a482d4c5b51ac366cb778fe7aaa623cedb5d38ff64f30317c6146590748dab77ccd9e902633765a29ce"
 
 
+python_text = """import os
+
+with open(os.path.join(os.path.dirname(__file__), "example.txt")) as example:
+    example_data = example.read().splitlines()
+
+with open(os.path.join(os.path.dirname(__file__), "input.txt")) as example:
+    input_data = example.read().splitlines()
+"""
+
+
 def create_files(task_dir: str, day: int):
     go_path = os.path.join(task_dir, f"day{day}.go")
     python_path = os.path.join(task_dir, f"day{day}.py")
@@ -18,7 +28,9 @@ def create_files(task_dir: str, day: int):
     if os.path.exists(python_path):
         os.utime(python_path, None)
     else:
-        open(python_path, "a").close()
+        with open(python_path, "a") as python_file:
+            python_file.write(python_text)
+            python_file.close()
 
 
 def generate_readme(task_dir: str, day: int):
@@ -82,7 +94,7 @@ def bench(part):
 
 
 if __name__ == "__main__":
-    day = 1
+    day = 3
     root = os.path.dirname(__file__)
     task_dir = os.path.join(root, f"day{day}")
     generate_readme(task_dir, day)
