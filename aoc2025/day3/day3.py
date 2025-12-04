@@ -1,20 +1,10 @@
 import os
-import time
 
 with open(os.path.join(os.path.dirname(__file__), "example.txt")) as example:
     example_data = example.read().splitlines()
 
 with open(os.path.join(os.path.dirname(__file__), "input.txt")) as example:
     input_data = example.read().splitlines()
-
-def bench(part):
-    def wrapper(*args, **kwargs):
-        start = time.perf_counter()
-        value = part(*args, **kwargs)
-        print(f"\tevaluation time: {time.perf_counter() - start} s")
-        return value
-
-    return wrapper
 
 
 def part1(data=input_data):
@@ -48,7 +38,6 @@ def part2(data=input_data, number_digits=2):
             window_ind = window_ind + 1
         sum += int("".join([str(d) for d in numind]))
     print(f"Part 2: {sum=}")
-
 
 
 part1(example_data)
