@@ -7,8 +7,10 @@ with open(os.path.join(os.path.dirname(__file__), "example.txt")) as example:
 with open(os.path.join(os.path.dirname(__file__), "input.txt")) as example:
     input_data = example.read().splitlines()
 
+
 def bench(part):
     import time
+
     def wrapper(*args, **kwargs):
         start = time.perf_counter()
         value = part(*args, **kwargs)
@@ -16,6 +18,7 @@ def bench(part):
         return value
 
     return wrapper
+
 
 def part1(data):
     grid = np.array([list(w) for w in data])
@@ -32,6 +35,7 @@ def part1(data):
 
     print(f"Part 1: {sum=}")
 
+
 @bench
 def part2(data):
     grid = np.array([list(w) for w in data])
@@ -42,7 +46,7 @@ def part2(data):
     can_remove = True
     rounds = 0
     while can_remove:
-        coords2remove = []
+        removed = 0
         for i in range(H - 3 + 2):
             for j in range(W - 3 + 2):
                 if grid[i, j] == 1:
@@ -50,12 +54,12 @@ def part2(data):
                     count = np.sum(subgrid)
                     if count < 5:
                         sum += 1
-                        coords2remove.append((i, j))
-        if len(coords2remove) == 0:
+                        grid[i, j] = 0
+                        removed += 1
+        if removed == 0:
             can_remove = False
         else:
             rounds += 1
-            grid[tuple(zip(*coords2remove))] = 0
 
     print(f"Part 2: {sum=} after {rounds} rounds")
 
