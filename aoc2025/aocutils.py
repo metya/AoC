@@ -46,6 +46,7 @@ def generate_readme(task_dir: str, day: int):
         readme.write(md.markdownify(str(soup.find_all("article")[0])))
     if len(soup.find_all("article")) > 1:
         with open(readme_path, "a") as readme:
+            readme.write("\n\n")
             readme.write(md.markdownify(str(soup.find_all("article")[1])))
 
 
@@ -94,7 +95,7 @@ def bench(part):
 
 
 if __name__ == "__main__":
-    day = 4
+    day = 5
     root = os.path.dirname(__file__)
     task_dir = os.path.join(root, f"day{day}")
     generate_readme(task_dir, day)
